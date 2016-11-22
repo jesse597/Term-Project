@@ -19,7 +19,6 @@ public class SmartWord
 
     // initialize SmartWord with a file of English words
     // For each word in words.txt, add to trie with frequency 0
-	//hello
     public SmartWord (String wordFile) {
 
     }
