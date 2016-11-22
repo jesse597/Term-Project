@@ -18,11 +18,13 @@ public class SmartWord
     String[] guesses = new String[3];  // 3 guesses from SmartWord
 
     // initialize SmartWord with a file of English words
+    // For each word in words.txt, add to trie with frequency 0
     public SmartWord (String wordFile) {
 
     }
 
     // process old messages from oldMessageFile
+    // For each word in oldMessages.txt, add to trie, including frequency
     public void processOldMessages (String oldMessageFile) {
 
     }
