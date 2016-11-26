@@ -49,10 +49,8 @@ public class SmartWord
     // wordPosition: position of the word in a message, starts from 0
     public String[] guess (char letter,  int letterPosition, int wordPosition) {
 	previouslyEntered += letter;
-	final ArrayList<String> words = wordDatabase.findAll(previouslyEntered);
-	for (int i = 0; i < Math.min(3, words.size()); i++) {
-	    guesses[i] = words.get(i);
-	}
+	final ArrayList<StringFrequencyPair> words = wordDatabase.findAll(previouslyEntered);
+	guesses = findMax3(words);
         return guesses;
     }
 
