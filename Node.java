@@ -9,7 +9,7 @@ public class Node<E> {
     E element;
     Node<E> parent;
     LinkedList<Node<E>> children;
-    int depth;
+    private int frequency;
     public Node(final E e, final Node<E> p) {
         element = e;
         parent = p;
@@ -38,5 +38,13 @@ public class Node<E> {
 
     public boolean isExternal () {
         return getChildren() == null;
+    }
+    
+    public void incrementFrequency () {
+        frequency++;
+    }
+    
+    public int getFrequency () {
+        return frequency;
     }
 }
