@@ -16,17 +16,31 @@
 public class SmartWord
 {
     String[] guesses = new String[3];  // 3 guesses from SmartWord
+    String previouslyEntered = null;   // Letters in string that have already been typed by user
+    Trie wordDatabase = new Trie (new Node<String>("", null));
 
     // initialize SmartWord with a file of English words
     // For each word in words.txt, add to trie with frequency 0
     public SmartWord (String wordFile) {
-
+        final Scanner sc = new Scanner(new File(wordFile));
+        while (sc.hasNextLine()) {
+            final String word = sc.nextLine();
+            word.replaceAll("[^a-zA-Z]", "").toLowerCase();
+            wordDatabase.addWord(word);
+        }
     }
 
     // process old messages from oldMessageFile
     // For each word in oldMessages.txt, add to trie, including frequency
     public void processOldMessages (String oldMessageFile) {
-
+        final Scanner sc = new Scanner(new File(oldMessageFile));
+        while (sc.hasNextLine()) {
+            final String[] words = sc.nextLine().split(" ");
+            for (final String word : words) {
+                word.replaceAll("[^a-zA-Z]", "").toLowerCase();
+                wordDatabase.addWord(word); 
+            }
+        }
     }
 
     // based on a letter typed in by the user, return 3 word guesses in an array
