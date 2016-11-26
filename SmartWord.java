@@ -76,4 +76,30 @@ public class SmartWord
         }
     }
 
+    public String[] findMax3 (final ArrayList<StringFrequencyPair> words) {
+        final ArrayList<StringFrequencyPair> max3 = new ArrayList<StringFrequencyPair>();
+        int max = Integer.MIN_VALUE;
+        StringFrequencyPair min = new StringFrequencyPair("", Integer.MAX_VALUE);
+        for (final StringFrequencyPair SFP : words) {
+            if (SFP.getFrequency() >= max) {
+                if (max3.size() == 3) {
+                    for (final StringFrequencyPair SFP2 : max3) {
+                        if (SFP2.getFrequency() <= min.getFrequency()) {
+                            min = SFP2;
+                        }
+                    }
+                    max3.remove(min);
+                }
+                max3.add(SFP);
+                min = SFP;
+                max = min.getFrequency();
+            }
+        }
+
+        final String[] strings = new String[3];
+        for (int i = 0; i < Math.min(3, max3.size()); i++) {
+            strings[i] = max3.get(i).getWord();
+        }
+        return strings;
+    }
 }
