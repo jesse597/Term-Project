@@ -23,8 +23,8 @@ public class Trie extends Tree<String> {
     }
 
     //Finds all words that could end with entered characters (modify to only return best 3)
-    public ArrayList<String> findAll (final String s) {
-        final ArrayList<String> words = new ArrayList<String>();
+    public ArrayList<StringFrequencyPair> findAll (final String s) {
+        final ArrayList<StringFrequencyPair> words = new ArrayList<StringFrequencyPair>();
         Node<String> current = root;
         for (int i = 0; i < s.length() - 1; i++) {
             for (final Node<String> n : current.getChildren()) {
@@ -35,22 +35,23 @@ public class Trie extends Tree<String> {
             }
         }
         
-        preOrder (current, words);
+        postOrder (current, words);
         return words;
     }
 
     //Traverses through all nodes, and adds a word to the words arraylist if the node is external
-    public void preOrder (final Node<String> v, final ArrayList<String> words) {
+    public void postOrder (final Node<String> v, final ArrayList<StringFrequencyPair> words) {
+        for (final Node<String> w : v.getChildren()) {
+            postOrder(w, words);
+        }
+
         if (v.isExternal()) {
             constructWord (v, words);
-        }
-        for (final Node<String> w : v.getChildren()) {
-            preOrder(w, words);
         }
     }
 
     //Construct a word to add to words arraylist by adding each letter up to the root
-    public void constructWord (final Node<String> v, final ArrayList<String> words) {
+    public void constructWord (final Node<String> v, final ArrayList<StringFrequencyPair> words) {
         Node<String> current = v;
         String word = "";
         while (!current.isRoot()) {
