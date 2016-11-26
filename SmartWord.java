@@ -21,23 +21,23 @@ public class SmartWord
 
     // initialize SmartWord with a file of English words
     // For each word in words.txt, add to trie with frequency 0
-    public SmartWord (String wordFile) {
+    public SmartWord (String wordFile) throws FileNotFoundException {
         final Scanner sc = new Scanner(new File(wordFile));
         while (sc.hasNextLine()) {
-            final String word = sc.nextLine();
-            word.replaceAll("[^a-zA-Z]", "").toLowerCase();
+            String word = sc.nextLine();
+            word = word.replaceAll("[^a-zA-Z]", "").toLowerCase();
             wordDatabase.addWord(word);
         }
     }
 
     // process old messages from oldMessageFile
     // For each word in oldMessages.txt, add to trie, including frequency
-    public void processOldMessages (String oldMessageFile) {
+    public void processOldMessages (String oldMessageFile) throws FileNotFoundException {
         final Scanner sc = new Scanner(new File(oldMessageFile));
         while (sc.hasNextLine()) {
             final String[] words = sc.nextLine().split(" ");
-            for (final String word : words) {
-                word.replaceAll("[^a-zA-Z]", "").toLowerCase();
+            for (String word : words) {
+                word = word.replaceAll("[^a-zA-Z]", "").toLowerCase();
                 wordDatabase.addWord(word); 
             }
         }
@@ -48,7 +48,11 @@ public class SmartWord
     // letterPosition:  position of the letter in the word, starts from 0
     // wordPosition: position of the word in a message, starts from 0
     public String[] guess (char letter,  int letterPosition, int wordPosition) {
-	
+	previouslyEntered += letter;
+	final ArrayList<String> words = wordDatabase.findAll(previouslyEntered);
+	for (int i = 0; i < Math.min(3, words.size()); i++) {
+	    guesses[i] = words.get(i);
+	}
         return guesses;
     }
 
@@ -66,7 +70,10 @@ public class SmartWord
     // b.         false               null
     // c.         false               correct word
     public void feedback (boolean isCorrectGuess, String correctWord) {
-
+        if (correctWord != null) {
+            previouslyEntered = "";
+            wordDatabase.addWord(correctWord);
+        }
     }
 
 }
