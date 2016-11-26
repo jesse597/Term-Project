@@ -16,7 +16,7 @@
 public class SmartWord
 {
     String[] guesses = new String[3];  // 3 guesses from SmartWord
-    String previouslyEntered = null;   // Letters in string that have already been typed by user
+    String previouslyEntered = "";   // Letters in string that have already been typed by user
     Trie wordDatabase = new Trie (new Node<String>("", null));
 
     // initialize SmartWord with a file of English words
