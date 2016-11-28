@@ -20,11 +20,11 @@ public class Trie extends Tree<String> {
                     break;
                 }
             }
-            parent.setEndOfWord(true);
             if (!letterFound) {
                 parent = addChild(parent, new Node(((Character) s.charAt(i)).toString(), parent));
             }
         }
+        parent.setEndOfWord(true);
         if (isFromMessages) {
             parent.incrementFrequency();
         }
