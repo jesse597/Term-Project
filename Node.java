@@ -10,6 +10,7 @@ public class Node<E> {
     private Node<E> parent;
     private ArrayList<Node<E>> children;
     private int frequency;
+    private boolean isEndOfWord;
     public Node(final E e, final Node<E> p) {
         element = e;
         parent = p;
@@ -50,5 +51,13 @@ public class Node<E> {
     
     public int getFrequency () {
         return frequency;
+    }
+    
+    public boolean isEndOfWord () {
+        return isEndOfWord;
+    }
+    
+    public void setEndOfWord (boolean e) {
+        isEndOfWord = e;
     }
 }
