@@ -20,6 +20,7 @@ public class Trie extends Tree<String> {
                     break;
                 }
             }
+            parent.setEndOfWord(true);
             if (!letterFound) {
                 parent = addChild(parent, new Node(((Character) s.charAt(i)).toString(), parent));
             }
@@ -56,7 +57,7 @@ public class Trie extends Tree<String> {
             postOrder(w, words);
         }
 
-        if (v.isExternal()) {
+        if (v.isEndOfWord()) {
             constructWord (v, words);
         }
     }
