@@ -1,5 +1,3 @@
-Modified Tree and Node classes from HW3;
-Simple Trie class that still needs changes;
-Added guess and feedback methods, which returns the first 3 words
-starting with input letters and works with 4% accuracy; and adds
-words from new message file to Trie
+#Check the Preview branch
+#Stores all words from words.txt in Trie without adding frequency, and all words from oldMessages.txt with frequency
+#Searches for all words below the entered characters in the trie, and returns 3 with highest frequency
