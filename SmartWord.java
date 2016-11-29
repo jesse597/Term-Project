@@ -17,7 +17,8 @@ public class SmartWord
 {
     String[] guesses = new String[3];  // 3 guesses from SmartWord
     String previouslyEntered = "";   // Letters in string that have already been typed by user
-    Trie wordDatabase = new Trie (new Node<String>("", null));
+    Trie wordDatabase = new Trie (new Node<String>("", null));  // Trie containing all words entered
+    boolean endOfWord = false;  // Checks whether the letter being checked is the last letter in its word
 
     // initialize SmartWord with a file of English words
     // For each word in words.txt, add to trie with frequency 0
@@ -48,9 +49,10 @@ public class SmartWord
     // letterPosition:  position of the letter in the word, starts from 0
     // wordPosition: position of the word in a message, starts from 0
     public String[] guess (char letter,  int letterPosition, int wordPosition) {
-	previouslyEntered += letter;
-	final ArrayList<StringFrequencyPair> words = wordDatabase.findAll(previouslyEntered);
-	guesses = findMax3(words);
+	if (!endOfWord) {
+            previouslyEntered += letter;
+            guesses = wordDatabase.findGuesses(previouslyEntered);
+        }
         return guesses;
     }
 
@@ -68,36 +70,36 @@ public class SmartWord
     // b.         false               null
     // c.         false               correct word
     public void feedback (boolean isCorrectGuess, String correctWord) {
-        if (correctWord != null) {
-            previouslyEntered = "";
-            wordDatabase.addWord(correctWord);
-        }
-    }
 
-    public String[] findMax3 (final ArrayList<StringFrequencyPair> words) {
-        final ArrayList<StringFrequencyPair> max3 = new ArrayList<StringFrequencyPair>();
-        int max = Integer.MIN_VALUE;
-        StringFrequencyPair min = new StringFrequencyPair("", Integer.MAX_VALUE);
-        for (final StringFrequencyPair SFP : words) {
-            if (SFP.getFrequency() >= max) {
-                if (max3.size() == 3) {
-                    for (final StringFrequencyPair SFP2 : max3) {
-                        if (SFP2.getFrequency() <= min.getFrequency()) {
-                            min = SFP2;
-                        }
-                    }
-                    max3.remove(min);
+        //Printing loop; only used for testing, remove before submitting
+        if (!previouslyEntered.equals("")) {
+            System.out.println("Entered: " + previouslyEntered);
+            System.out.print("Guesses: ");
+            for (int i = 0; i < 3; i++) {
+                if (guesses[i] != null) {
+                    System.out.print(guesses[i] + " ");
                 }
-                max3.add(SFP);
-                min = SFP;
-                max = min.getFrequency();
+            }
+            System.out.println();
+        }
+
+        if (isCorrectGuess) {
+            //Guessed correctly
+            previouslyEntered = "";
+            wordDatabase.addWord(correctWord, true);
+            System.out.println("Correctly guessed. Correct word: " + correctWord); //Remove before submitting
+        } else {
+            if (correctWord == null) {
+                //Guessed incorrectly and not reached end of word
+                //Ensure that the program is not checking the last letter of the word anymore
+                endOfWord = false;
+            } else {
+                //Guessed incorrectly and reached end of word
+                previouslyEntered = "";
+                wordDatabase.addWord(correctWord, true);
+                endOfWord = true;
+                System.out.println("Incorrectly guessed. Correct word: " + correctWord); //Remove before submitting
             }
         }
-
-        final String[] strings = new String[3];
-        for (int i = 0; i < Math.min(3, max3.size()); i++) {
-            strings[i] = max3.get(i).getWord();
-        }
-        return strings;
     }
 }
