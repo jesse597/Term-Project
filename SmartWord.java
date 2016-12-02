@@ -32,12 +32,14 @@ public class SmartWord
     // Initialize SmartWord with a file of English words
     // Add each word to a standard trie without incrementing each word's frequency
     public SmartWord (String wordFile) throws FileNotFoundException {
+        /*
         final Scanner sc = new Scanner(new File(wordFile));
         while (sc.hasNextLine()) {
             String word = sc.nextLine();
             word = word.replaceAll("[^a-zA-Z]", "").toLowerCase();
             wordDatabase.addWord(word, false);
         }
+        */
     }
 
     // Process old messages from oldMessageFile
